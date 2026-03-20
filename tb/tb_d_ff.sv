@@ -4,6 +4,8 @@
 
 /* verilator lint_off UNUSEDSIGNAL */
 
+`timescale 1 ns/1 ps
+
 module tb_d_ff ();
 
     logic clk;

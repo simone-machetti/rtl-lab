@@ -2,6 +2,8 @@
 // Author: Simone Machetti
 // -----------------------------------------------------------------------------
 
+`timescale 1 ns/1 ps
+
 module tb_cpr_n_2 ();
 
     localparam int IN_SIZE_LIST  [0:4] = '{4, 8, 16, 32, 64};

@@ -4,7 +4,9 @@
 
 /* verilator lint_off UNUSEDSIGNAL */
 
-module tb_edge_detector ();
+`timescale 1 ns/1 ps
+
+module tb_edge_det ();
 
     logic clk;
     logic rst_n;
@@ -12,7 +14,7 @@ module tb_edge_detector ();
     logic rising_edge;
     logic falling_edge;
 
-    edge_detector edge_detector_i (
+    edge_det edge_det_i (
         .clk_i         (clk),
         .rst_ni        (rst_n),
         .a_i           (a),
