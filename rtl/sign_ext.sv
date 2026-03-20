@@ -4,7 +4,7 @@
 
 `timescale 1 ns/1 ps
 
-module sign_extender #(
+module sign_ext #(
     parameter int IN_WIDTH  = 8,
     parameter int OUT_WIDTH = 16
 )(

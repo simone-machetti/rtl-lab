@@ -4,7 +4,7 @@
 
 `timescale 1 ns/1 ps
 
-module edge_detector (
+module edge_det (
     input  logic clk_i,
     input  logic rst_ni,
     input  logic a_i,
