@@ -6,17 +6,19 @@
 
 module tb_cpr_n_2 ();
 
-    localparam int IN_SIZE_LIST  [0:4] = '{4, 8, 16, 32, 64};
-    localparam int IN_WIDTH_LIST [0:4] = '{8, 8,  8,  8,  8};
+    localparam int IN_SIZE_LIST  [0:4]     = '{4, 8, 16, 32, 64};
+    localparam int IN_WIDTH_LIST [0:4]     = '{8, 8,  8,  8,  8};
+    localparam int MAX_EXT_BITS_LIST [0:4] = '{2, 3,  4,  5, -1};
 
     genvar k;
     generate
         for (k = 0; k < 5; k++) begin
 
-            localparam int IN_SIZE  = IN_SIZE_LIST[k];
-            localparam int IN_WIDTH = IN_WIDTH_LIST[k];
+            localparam int IN_SIZE      = IN_SIZE_LIST[k];
+            localparam int IN_WIDTH     = IN_WIDTH_LIST[k];
+            localparam int MAX_EXT_BITS = MAX_EXT_BITS_LIST[k];
 
-            localparam int OUT_WIDTH = IN_WIDTH + $clog2(IN_SIZE) + 1;
+            localparam int OUT_WIDTH = MAX_EXT_BITS == -1 ? IN_WIDTH + $clog2(IN_SIZE) + 1 : IN_WIDTH + MAX_EXT_BITS;
 
             logic [ IN_WIDTH-1:0] in [0:IN_SIZE-1];
             logic [OUT_WIDTH-1:0] sum;
@@ -25,8 +27,9 @@ module tb_cpr_n_2 ();
             logic [OUT_WIDTH-1:0] acc;
 
             cpr_n_2 #(
-                .IN_SIZE (IN_SIZE),
-                .IN_WIDTH(IN_WIDTH)
+                .IN_SIZE     (IN_SIZE),
+                .IN_WIDTH    (IN_WIDTH),
+                .MAX_EXT_BITS(MAX_EXT_BITS)
             ) cpr_n_2_i (
                 .in_i   (in),
                 .sum_o  (sum),
