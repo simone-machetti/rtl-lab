@@ -6,9 +6,9 @@
 
 module tb_cpr_n_2 ();
 
-    localparam int IN_SIZE_LIST  [0:4]     = '{4, 8, 16, 32, 64};
-    localparam int IN_WIDTH_LIST [0:4]     = '{8, 8,  8,  8,  8};
-    localparam int MAX_EXT_BITS_LIST [0:4] = '{2, 3,  4,  5, -1};
+    localparam int IN_SIZE_LIST  [0:4]     = '{ 3, 8, 16, 32, 64};
+    localparam int IN_WIDTH_LIST [0:4]     = '{ 8, 8,  8,  8,  8};
+    localparam int MAX_EXT_BITS_LIST [0:4] = '{-1, 3,  4,  5, -1};
 
     genvar k;
     generate
