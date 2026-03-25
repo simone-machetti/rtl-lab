@@ -7,7 +7,7 @@
 module tb_cpr_tree ();
 
     localparam int PP_SIZE  = 64;
-    localparam int PP_WIDTH = 50;
+    localparam int PP_WIDTH = 18;
     localparam int ACC_SIZE = 3;
 
     localparam int ACC_WIDTH = 48;
