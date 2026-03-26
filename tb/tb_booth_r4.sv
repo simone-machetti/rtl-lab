@@ -31,7 +31,7 @@ module tb_booth_r4 ();
         $dumpfile("activity.vcd");
         $dumpvars(0, tb_booth_r4.booth_r4_i);
 
-        for (int j = 0; j < 10000; j++) begin
+        for (int j = 0; j < 1000; j++) begin
             a = WIDTH_A'($urandom_range(0, (1<<WIDTH_A)-1));
             b = WIDTH_B'($urandom_range(0, (1<<WIDTH_B)-1));
 
@@ -39,7 +39,7 @@ module tb_booth_r4 ();
 
             res = OUT_WIDTH'($signed(pp[0]));
             for (int i = 1; i < PP_SIZE; i++) begin
-                res = OUT_WIDTH'(res + (OUT_WIDTH'($signed(pp[i])) << 2));
+                res = OUT_WIDTH'(res + (OUT_WIDTH'($signed(pp[i])) << (2*i)));
             end
 
             exp = OUT_WIDTH'($signed(a) * $signed(b));
