@@ -1,8 +1,9 @@
+#!/usr/bin/env bash
+
 # -----------------------------------------------------------------------------
 # Author: Simone Machetti
 # -----------------------------------------------------------------------------
 
-#!/usr/bin/env bash
 set -euo pipefail
 
 verilator \
@@ -14,12 +15,12 @@ verilator \
     --trace-max-width 0 \
     -Wall \
     -Wno-fatal \
-    -I"${CODE_HOME}/21-days-of-rtl/rtl" \
+    -I"${CODE_HOME}/rtl-lab/rtl" \
     --top-module "tb_${SEL_TOP_LEVEL}" \
-    -f "${CODE_HOME}/21-days-of-rtl/scripts/sim/filelist.f" \
-    -Mdir "${CODE_HOME}/21-days-of-rtl/sim/${SEL_OUT_DIR}/build/obj_dir" \
-    -o "${CODE_HOME}/21-days-of-rtl/sim/${SEL_OUT_DIR}/build/simv" \
-    | tee "${CODE_HOME}/21-days-of-rtl/sim/${SEL_OUT_DIR}/output/compile.log"
+    -f "${CODE_HOME}/rtl-lab/scripts/sim/filelist.f" \
+    -Mdir "${CODE_HOME}/rtl-lab/sim/${SEL_OUT_DIR}/build/obj_dir" \
+    -o "${CODE_HOME}/rtl-lab/sim/${SEL_OUT_DIR}/build/simv" \
+    | tee "${CODE_HOME}/rtl-lab/sim/${SEL_OUT_DIR}/output/compile.log"
 
-exec "${CODE_HOME}/21-days-of-rtl/sim/${SEL_OUT_DIR}/build/simv" "$@" \
-    | tee "${CODE_HOME}/21-days-of-rtl/sim/${SEL_OUT_DIR}/output/run.log"
+exec "${CODE_HOME}/rtl-lab/sim/${SEL_OUT_DIR}/build/simv" "$@" \
+    | tee "${CODE_HOME}/rtl-lab/sim/${SEL_OUT_DIR}/output/run.log"

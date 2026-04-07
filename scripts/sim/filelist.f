@@ -2,4 +2,4 @@
 # Author: Simone Machetti
 # -----------------------------------------------------------------------------
 
-${CODE_HOME}/21-days-of-rtl/tb/tb_${SEL_TOP_LEVEL}.sv
+${CODE_HOME}/rtl-lab/tb/tb_${SEL_TOP_LEVEL}.sv

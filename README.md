@@ -1,6 +1,6 @@
-# 21 Days of RTL
+# RTL Lab
 
-This work includes the 21 Days of RTL course of QuickSilicon.
+This work includes several RTL components.
 
 ## Repository structure
 
@@ -14,16 +14,4 @@ This work includes the 21 Days of RTL course of QuickSilicon.
 ├── Makefile
 ├── README.md
 └── .gitignore
-```
-
-## Getting started
-
-```
-https://https://github.com/simone-machetti/21-days-of-rtl
-```
-
-## Simulation
-
-```
-make sim TOP_LEVEL=<top_level> OUT_DIR=<out_dir>
 ```
