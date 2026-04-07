@@ -13,5 +13,9 @@ This work includes several RTL components.
 ├── sim
 ├── Makefile
 ├── README.md
+├── CLAUDE.md
+├── .claude
+│   └── settings.json
 └── .gitignore
+
 ```
