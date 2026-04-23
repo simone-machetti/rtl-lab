@@ -13,7 +13,7 @@ module cpr_n_2 #(
     parameter int IN_WIDTH     = 8,
     parameter int MAX_EXT_BITS = -1,
 
-    localparam int OUT_WIDTH = MAX_EXT_BITS == -1 ? IN_WIDTH + $clog2(IN_SIZE) + 1 : IN_WIDTH + MAX_EXT_BITS
+    localparam int OUT_WIDTH = MAX_EXT_BITS == -1 ? IN_WIDTH + $clog2(IN_SIZE) : IN_WIDTH + MAX_EXT_BITS
 )(
     input  logic [ IN_WIDTH-1:0] in_i [0:IN_SIZE-1],
     output logic [OUT_WIDTH-1:0] sum_o,
@@ -45,7 +45,7 @@ module cpr_n_2 #(
             if (stage == 0) begin
                 ext_bits = 0;
             end else begin
-                ext_bits = stage + 2;
+                ext_bits = stage + 1;
             end
 
             if (MAX_EXT_BITS != -1 && ext_bits > MAX_EXT_BITS) begin
