@@ -28,7 +28,7 @@ export SEL_TB_DEFS        := $(TB_DEFS)
 export SEL_KEEP_HIERARCHY := $(KEEP_HIERARCHY)
 export SEL_IN_DIR         := $(if $(findstring /,$(IN_DIR)),$(abspath $(IN_DIR)),$(IN_DIR))
 
-.PHONY: init flow-list flow-run flow-ext flow-gen unit-test format format-sv format-sc
+.PHONY: init vendor flow-list flow-run flow-ext flow-gen unit-test format format-sv format-sc
 
 unit-test:
 	cd $(RTL_LAB_HOME)/scripts/unit-test && \
@@ -38,6 +38,12 @@ unit-test:
 init:
 	mkdir -p $(PROJ_DIR)/sim
 	mkdir -p $(PROJ_DIR)/imp
+
+vendor:
+	cd $(PROJ_DIR)/rtl/vendor && \
+	for desc in *.vendor.hjson; do \
+	python3 vendor.py $(VENDOR_ARGS) $$desc || exit 1; \
+	done
 
 sim: clean-sim
 	cd $(RTL_LAB_HOME)/scripts/sim && \

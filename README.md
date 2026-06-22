@@ -37,7 +37,8 @@ This README documents the shared EDA flow: the `make` targets, their parameters,
 ├── projects/             # One subfolder per RTL project
 │   └── <name>/           # An RTL project (see its README.md)
 │       ├── README.md     # Project-specific documentation
-│       ├── rtl/          # SystemVerilog source modules
+│       ├── rtl/          # SystemVerilog source modules (searched recursively)
+│       │   └── vendor/   # vendored third-party RTL + import manifests (make vendor)
 │       ├── tb/           # Verilator SV testbenches
 │       ├── scripts/      # Project-specific scripts
 │       │   └── flow/     # End-to-end automation (one subfolder per experiment)
@@ -232,7 +233,7 @@ make sim-sc TOP_LEVEL=<top_level> CLK_PERIOD_NS=<val> OUT_DIR=<name> [PARAMS="KE
 
 | Parameter       | Required | Description                                                                                                                                                                                                                                                                                              |
 | --------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TOP_LEVEL`     | yes      | SystemC design top the harness instantiates (`rtl/systemc/<top_level>.hpp`); the SV DUT(s) it wraps are verilated from `rtl/*.sv`                                                                                                                                                                        |
+| `TOP_LEVEL`     | yes      | SystemC design top the harness instantiates (`rtl/systemc/<top_level>.hpp`); the SV DUT(s) it wraps are verilated from the SV sources under `rtl/` (searched recursively, so vendored cells under `rtl/vendor/` are included)                                                                            |
 | `CLK_PERIOD_NS` | yes      | Clock period in nanoseconds (drives the harness `sc_clock`)                                                                                                                                                                                                                                              |
 | `OUT_DIR`       | yes      | Output subdirectory under `sim/`                                                                                                                                                                                                                                                                         |
 | `PARAMS`        | no       | RTL elaboration parameters; passed to the verilated SV DUT(s) as `-G` and mirrored to the harness as `-D` (kept in sync)                                                                                                                                                                                 |
@@ -323,6 +324,16 @@ make flow-run EXP=<experiment> # then flow-ext / flow-gen
 
 Experiments are project-specific; see the project's own README for what each one does.
 
+### Vendored RTL
+
+A project may carry third-party RTL under `projects/<PROJECT>/rtl/vendor/`, imported with the lowRISC `vendor.py` tool (committed there). Each dependency has a `<name>.vendor.hjson` manifest pinning an upstream repository and commit, plus optional local patches under `patches/<name>/`. Re-import every dependency for a project with:
+
+```bash
+make vendor PROJECT=<project> [VENDOR_ARGS="--update"]
+```
+
+This runs `vendor.py` on every `*.vendor.hjson` in the project's `rtl/vendor/` folder, refreshing each vendored source from its pinned commit and re-applying its patches. Pass extra `vendor.py` flags via `VENDOR_ARGS` (e.g. `--update` to move to the manifest's revision, `-c` to commit the result). The vendored `.sv` files are committed, so the simulation/synthesis flows find them through the recursive `rtl/` search without re-running `vendor.py`.
+
 ### Cleanup
 
 ```bash
@@ -345,3 +356,4 @@ make clean-all                # remove all sim/ and imp/ directories
 | `IN_DIR`         | sim-sc                                             | dir name or path                | Input stimuli dir, exported as `SEL_IN_DIR`. Bare name → subfolder of `tb/stimuli/`; value with `/` → filesystem path; unset → testbench default |
 | `KEEP_HIERARCHY` | syn, post-syn-dpa                                  | `0` (default), `1`              | Preserve module boundaries in the netlist                                                                                                        |
 | `EXP`            | flow-run, flow-ext, flow-gen                       | experiment name                 | Required. Experiment subfolder under `scripts/flow/` (no default)                                                                                |
+| `VENDOR_ARGS`    | vendor                                             | `vendor.py` flags               | Extra flags forwarded to `vendor.py` (e.g. `--update`, `-c`); default none                                                                       |

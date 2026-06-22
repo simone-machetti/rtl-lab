@@ -41,8 +41,7 @@
 #include <sstream>
 #include <vector>
 
-template <int NUM_ROW = 1024, int BYTES_PER_WORD = 4>
-SC_MODULE(bank) {
+template <int NUM_ROW = 1024, int BYTES_PER_WORD = 4> SC_MODULE(bank) {
     sc_in<bool>      clk_i;
     sc_in<bool>      rst_ni;
     sc_in<bool>      req_i;
@@ -65,7 +64,7 @@ SC_MODULE(bank) {
         for (int l = 0; l < BYTES_PER_WORD; ++l) {
             if (be & (1u << l)) {
                 const uint64_t m = static_cast<uint64_t>(0xFF) << (8 * l);
-                out = (out & ~m) | (new_w & m);
+                out              = (out & ~m) | (new_w & m);
             }
         }
         return out;
@@ -84,8 +83,8 @@ SC_MODULE(bank) {
             const uint64_t word = addr_i.read() / BYTES_PER_WORD;
             if (word >= static_cast<uint64_t>(kDepthWords)) {
                 std::ostringstream os;
-                os << "OBI access out of range: bank-local word " << word
-                   << " >= capacity " << kDepthWords;
+                os << "OBI access out of range: bank-local word " << word << " >= capacity "
+                   << kDepthWords;
                 SC_REPORT_FATAL(name(), os.str().c_str());
             }
             if (we_i.read()) {
@@ -99,7 +98,9 @@ SC_MODULE(bank) {
         rdata_o.write(rd);
     }
 
-    void comb_gnt() { gnt_o.write(req_i.read()); }
+    void comb_gnt() {
+        gnt_o.write(req_i.read());
+    }
 
     SC_CTOR(bank) : mem(kDepthWords, 0) {
         SC_METHOD(step);
